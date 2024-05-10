@@ -1,0 +1,32 @@
+// SPDX-License-Identifier: MIT
+pragma solidity 0.8.25;
+
+contract MyToken {
+   // public variables
+   string public tokenName = "QIUU";
+   string public tokenAbbrv = "QIU";
+   uint public totalSupply = 0;
+
+   // mapping variable
+   mapping(address => uint) public balances;
+
+   // mint function
+   function mint(address _to, uint _amount) public {
+       totalSupply += _amount;
+       balances[_to] += _amount;
+   }
+
+   // burn function
+   function burn(address _from, uint _amount) public {
+       require(balances[_from] >= _amount);
+       totalSupply -= _amount;
+       balances[_from] -= _amount;
+   }
+
+   constructor(string memory _tokenName, string memory _tokenAbbrv, uint _initialSupply) {
+       tokenName = _tokenName;
+       tokenAbbrv = _tokenAbbrv;
+       totalSupply = _initialSupply;
+       balances[msg.sender] = _initialSupply;
+   }
+}
